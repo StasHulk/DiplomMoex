@@ -1,0 +1,9 @@
+{
+  "/": {
+    "target": "http://10.20.33.253:9002",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "cookieDomainRewrite": ""
+  }
+}
