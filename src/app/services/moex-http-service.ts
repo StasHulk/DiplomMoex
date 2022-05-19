@@ -2,6 +2,8 @@ import {HttpClient} from "@angular/common/http";
 import {RxStomp} from "@stomp/rx-stomp";
 import {Injectable} from "@angular/core";
 import {Client, Stomp} from "@stomp/stompjs";
+import {Observable, Observer} from "rxjs";
+import {webSocket} from "rxjs/webSocket";
 // import SockJS from 'sockjs-client';
 declare var SockJS: any;
 
@@ -14,14 +16,37 @@ export class MoexHttpService {
 
   }
 
+  // createWS(){
+  //   const subject = webSocket('wss://10.20.33.253:9002/live-stocks');
+  //
+  //   subject.subscribe(
+  //     msg => console.log('message received: ' + msg), // Called whenever there is a message from the server.
+  //     err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
+  //     () => console.log('complete') // Called when connection is closed (for whatever reason).
+  //   );
+  // }
+
+  requesT(){
+    const body = {
+      "page": {
+        "pageSize": 0,
+        "pageIndex": 0
+      }
+    }
+
+    this.http.post('/iss/engines', body).subscribe((res) => {
+      console.log(res);
+    })
+  }
+
 
   webSocketConnect2(){
 
       /* Configuring WebSocket on Client Side */
-      var socket = new SockJS('/live-stocks');
+      var socket = new SockJS('http://10.20.33.253:9002/live-stocks');
       let stompClient = Stomp.over(socket);
       stompClient.connect({}, function(frame: any) {
-        stompClient.subscribe('/app/topic', function(data) {
+        stompClient.subscribe('ws://10.20.33.253:9002/app/topic', function(data) {
           console.log('DATA ', data)
         });
       });
@@ -100,16 +125,7 @@ export class MoexHttpService {
 
 
 
-    // const body = {
-    //   "page": {
-    //     "pageSize": 0,
-    //     "pageIndex": 0
-    //   }
-    // }
-    //
-    // this.http.post('/iss/engines', body).subscribe((res) => {
-    //   console.log(res);
-    // })
+
   }
 
 }

@@ -13,6 +13,6 @@ export class AppComponent implements AfterViewInit{
   }
 
   ngAfterViewInit() {
-    this.httpService.webSocketConnect2();
+    this.httpService.requesT();
   }
 }
